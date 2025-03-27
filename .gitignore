@@ -14,7 +14,7 @@ __pycache__/
 *.pyo
 
 # Ignorar PDFs baixados
-downloaded_pdfs/
+untouched_pdfs/
 
 # Ignorar logs e metadados do sistema
 *.log

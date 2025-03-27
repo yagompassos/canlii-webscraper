@@ -1,6 +1,8 @@
 import re
 import PyPDF2
 from curl_cffi import requests
+import time
+import random
 
 class DataCleaner:
     @staticmethod
@@ -33,7 +35,6 @@ class PdfHandler:
         clean_title = data_cleaner.clean_text(title)
         existing_titles = file_handler.read_lines()
         if clean_title in [data_cleaner.clean_text(t) for t in existing_titles]:
-            file_handler.write_lines([title])  
             return True
         else:
             return False
@@ -47,6 +48,20 @@ class PdfHandler:
         return content
     
     def download_pdf(self, item: dict, save_folder: str):
+        print("timeout de 5 a 10 minutos...")
+        #time.sleep(random.uniform(300, 600))      # espera entre 5 a 10 minutos para cada requisição de PDF (culpada por erro HTTP 429)
+        print(f"Baixando PDF: {item.get('title')}")
+
+        USER_AGENTS = [
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", # Chrome no Windows 11
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.5 Firefox/120.0", # Firefox no macOS
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.2 Mobile/15E148 Safari/604.1", # Safari no iPhone (iOS)
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 Edg/120.0.0.0", # Edge no Windows 11
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" # Chrome no Linux
+        ]
+        
+        self.session.headers.update({"User-Agent": random.choice(USER_AGENTS)}) # atualiza user agent para evitar HTTP 429
+
         pdf_url = item.get('path') 
         title = item.get('title') 
         if not pdf_url or not title:
@@ -64,9 +79,16 @@ class PdfHandler:
         try:
             response = self.session.get(entire_url)
             response.raise_for_status()
+            
+            # Salva o PDF
             with open(pdf_path, 'wb') as file:
                 file.write(response.content)
             print(f"PDF baixado: {pdf_name}")
+
+            # Adiciona o título ao arquivo de registros (modo append)
+            with open("pdfs_encontrados.txt", 'a', encoding='utf-8') as file:
+                file.write(title + '\n')
+                
             return pdf_path
         except requests.exceptions.RequestException as e:
             print(f"Erro ao baixar o PDF {pdf_name}: {e}")
