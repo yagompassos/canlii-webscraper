@@ -48,8 +48,8 @@ class PdfHandler:
         return content
     
     def download_pdf(self, item: dict, save_folder: str):
-        print("timeout de 5 a 10 minutos...")
-        #time.sleep(random.uniform(300, 600))      # espera entre 5 a 10 minutos para cada requisição de PDF (culpada por erro HTTP 429)
+        print("timeout de 30 a 60 segundos...")
+        time.sleep(random.uniform(30, 60))      # espera entre 30 segundos a 1 minuto para cada requisição de PDF (culpada por erro HTTP 429)
         print(f"Baixando PDF: {item.get('title')}")
 
         USER_AGENTS = [
