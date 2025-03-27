@@ -1,0 +1,22 @@
+# Ignorar ambientes virtuais (Windows e Unix)
+venv/
+Lib/
+Include/
+Scripts/
+pyvenv.cfg
+
+# Ignorar arquivos de configuração sensíveis
+.env
+
+# Ignorar arquivos temporários e compilados
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignorar PDFs baixados
+downloaded_pdfs/
+
+# Ignorar logs e metadados do sistema
+*.log
+.DS_Store
+Thumbs.db
