@@ -16,7 +16,7 @@ class AIClient:
             This case was found in the Canadian organization CanLII. \
             It contains the sentence "{topic}" at least once throughout its content. \
             You should analyze whether the case is about {topic} or if it's just a mention of the term. \
-            I need you to help me identify if this case is related to {topic} or not. 
+            I need you to help me identify if this case is related to Modern Slavery or not. 
             
             Here is a segment of the PDF available on the CanLII website:
 

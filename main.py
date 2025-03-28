@@ -14,7 +14,7 @@ def new_session():
     return session
 
 def search_api(session: requests.Session, query: str, page: int):
-    time.sleep(random.uniform(3, 7))      # espera entre 3 a 7 segundos para cada requisição de PDF (culpada por erro HTTP 429)
+    time.sleep(random.uniform(100, 300))      # espera entre  segundos para cada requisição de PDF (culpada por erro HTTP 429)
 
     USER_AGENTS = [
         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36", # Chrome no Windows 11
@@ -98,7 +98,7 @@ def process_query(session, query, pdf_handler, ai_client):
                     print(f"Arquivo movido para: {new_path}")
                 else:
                     print("deepseek descartou como irrelevante")
-                    os.remove(pdf_path)  # Remove PDFs irrelevantes
+                    # os.remove(pdf_path)  # Remove PDFs irrelevantes
             except Exception as e:
                 print(f"Erro na análise do AI: {e}")
         else:
