@@ -5,8 +5,8 @@ Este projeto realiza scraping de PDFs jurídicos, extrai seu conteúdo e os anal
 ## Configuração e Instalação
 1. Clone o repositório:
    ```sh
-   git clone https://github.com/seu-usuario/seu-repositorio.git
-   cd seu-repositorio
+   git clone https://github.com/yagompassos/canlii-webscraper
+   cd canlii-webscraper
    ```
 
 2. Crie e ative um ambiente virtual:
